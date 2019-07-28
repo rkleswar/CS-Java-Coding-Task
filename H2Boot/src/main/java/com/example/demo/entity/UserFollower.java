@@ -47,6 +47,19 @@ public class UserFollower implements Serializable {
     @Column(name = "posted_on")
     private Timestamp fallowedOn;
 
+	public UserFollower() {
+		super();
+	}
+
+	public UserFollower(long id, UserEntity followerId, UserEntity followeeId, boolean isFollow, Timestamp fallowedOn) {
+		super();
+		Id = id;
+		this.followerId = followerId;
+		this.followeeId = followeeId;
+		this.isFollow = isFollow;
+		this.fallowedOn = fallowedOn;
+	}
+
 	public long getId() {
 		return Id;
 	}

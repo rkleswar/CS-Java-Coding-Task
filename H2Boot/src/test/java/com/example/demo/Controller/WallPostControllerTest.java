@@ -16,20 +16,20 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.example.demo.bean.PostBean;
+import com.example.demo.bean.PostRequestBean;
 import com.example.demo.helper.MockData;
 import com.example.demo.helper.ResourceLoader;
 import com.example.demo.service.WallPostService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(MockitoJUnitRunner.class)
-/*@PrepareForTest(WallPostService.class)*/
+@PrepareForTest(WallPostController.class)
 public class WallPostControllerTest {
 	
 	private MockMvc mockMvc;
 
     @InjectMocks
-    private WallPostService wallPostControllerSpy;
+    private WallPostController wallPostControllerSpy;
 
     @Mock
     private WallPostService demoService;
@@ -41,10 +41,10 @@ public class WallPostControllerTest {
 
     @Test
     public void testcreateUser() throws JsonProcessingException, Exception {
-    	mockMvc.perform(post("/api/posts").content(ResourceLoader.asJsonString(new PostBean()))
+    	mockMvc.perform(post("/api/posts").content(ResourceLoader.asJsonString(new PostRequestBean()))
     			.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
-
+    
     @Test
     public void testGetNewsFeed() throws Exception {
         mockMvc.perform(get("/api/posts/{userId}", MockData.UESR_ID.getLong())

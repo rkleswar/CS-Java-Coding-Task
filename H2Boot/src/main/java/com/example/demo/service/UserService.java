@@ -1,10 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.bean.UserBean;
+import com.example.demo.bean.UserRequestBean;
 
 public interface UserService {
 	
-	public String createUser(UserBean user);
+	public String createUser(UserRequestBean user);
 	
 	public String getUserById(long userId);
 }

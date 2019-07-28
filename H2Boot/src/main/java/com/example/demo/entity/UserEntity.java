@@ -34,6 +34,16 @@ public class UserEntity implements Serializable {
     @Column(name = "registred_on")
     private Timestamp registeredOn;
 
+	public UserEntity() {
+		super();
+	}
+
+	public UserEntity(String email, Timestamp registeredOn) {
+		super();
+		this.email = email;
+		this.registeredOn = registeredOn;
+	}
+
 	public long getUserId() {
 		return userId;
 	}

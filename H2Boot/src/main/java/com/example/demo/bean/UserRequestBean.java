@@ -2,7 +2,7 @@ package com.example.demo.bean;
 
 import java.io.Serializable;
 
-public class UserBean implements Serializable {
+public class UserRequestBean implements Serializable {
 
 	private static final long serialVersionUID = -482579746519948977L;
     
@@ -10,6 +10,16 @@ public class UserBean implements Serializable {
     
     private String name;
     
+	public UserRequestBean() {
+		super();
+	}
+
+	public UserRequestBean(String email, String name) {
+		super();
+		this.email = email;
+		this.name = name;
+	}
+
 	public String getEmail() {
 		return email;
 	}

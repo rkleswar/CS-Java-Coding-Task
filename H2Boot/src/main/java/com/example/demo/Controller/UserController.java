@@ -2,13 +2,13 @@ package com.example.demo.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.bean.UserBean;
+import com.example.demo.bean.UserRequestBean;
 import com.example.demo.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +32,7 @@ public class UserController {
 			response = String.class
 	)
     @PostMapping("/users")
-    public String createUser(@RequestBody UserBean user) {
+    public String createUser(@RequestBody UserRequestBean user) {
         return userService.createUser(user);
     }
     
@@ -41,7 +41,7 @@ public class UserController {
 			response = String.class
 	)
     @GetMapping("/users/{userId}")
-    public String fetchUserById(@RequestParam long userId) {
+    public String fetchUserById(@PathVariable long userId) {
         return userService.getUserById(userId);
     }
     

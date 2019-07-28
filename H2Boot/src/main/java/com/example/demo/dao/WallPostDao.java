@@ -3,7 +3,6 @@ package com.example.demo.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -19,16 +18,10 @@ import com.example.demo.entity.WallPostEntity;
 @Repository
 public interface WallPostDao extends JpaRepository<WallPostEntity, Long> {
 
-	@Query("SELECT u FROM WallPostEntity u WHERE u.userEntity = :userEntity")
-	List<WallPostEntity> findPostsByByUserId(@Param("userEntity") UserEntity userEntity);
+	List<WallPostEntity> findByUserEntity(@Param("userEntity") UserEntity userEntity);
 	
-	@Query(value = "SELECT u FROM WallPostEntity u WHERE u.userEntity IN :userEntity ORDER BY u.postedOn DESC offset=1 limit =3", nativeQuery = true)
-	List<WallPostEntity> findPostsByByUserList(@Param("userEntity") List<UserEntity> userEntity);
+	List<WallPostEntity> findFirst20ByUserEntityInOrderByPostedOnDesc(@Param("userEntity") List<UserEntity> userEntity);
 	
-	//@Query(value = "SELECT u FROM WallPostEntity u WHERE u.userEntity IN :userEntity ORDER BY u.postedOn DESC")
-	List<WallPostEntity> findFirst10ByUserEntityInOrderByPostedOnDesc(@Param("userEntity") List<UserEntity> userEntity);
-	
-	//findFirst2ByDeptOrderBySalaryDesc
 }
 
 

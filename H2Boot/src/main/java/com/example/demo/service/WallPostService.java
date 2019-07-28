@@ -5,8 +5,8 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.bean.FeedBean;
-import com.example.demo.bean.PostBean;
+import com.example.demo.bean.PostResponseBean;
+import com.example.demo.bean.PostRequestBean;
 
 /**
  * @author KotilingeswararaoR
@@ -14,9 +14,9 @@ import com.example.demo.bean.PostBean;
  */
 public interface WallPostService {
 
-	public String createPost(PostBean postBean);
+	public String createPost(PostRequestBean postBean);
 	
-	public List<FeedBean> getNewsFeed(long userId);
+	public List<PostResponseBean> getNewsFeed(long userId);
 	
 	public boolean follow(long followerId,long followeeId);
 	

@@ -21,8 +21,7 @@ import com.example.demo.entity.UserFollower;
 @Repository
 public interface UserFollowerDao extends JpaRepository<UserFollower, Long> {
 
-	 @Query("SELECT u FROM UserFollower u WHERE u.followerId = :followerId")
-	 List<UserFollower> findByFollwees(@Param("followerId") UserEntity followerId);
+	 List<UserFollower> findByFollowerId(@Param("followerId") UserEntity followerId);
 
 	 @Transactional
 	 @Modifying

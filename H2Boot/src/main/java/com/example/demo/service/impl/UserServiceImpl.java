@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -7,12 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.bean.UserBean;
+import com.example.demo.bean.UserRequestBean;
 import com.example.demo.constants.ErrorMessages;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.RequestViolationException;
 import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -21,24 +22,16 @@ public class UserServiceImpl implements UserService{
 	private UserDao userDao;
 	
 	@Override
-	public String createUser(UserBean user) {
+	public String createUser(UserRequestBean user) {
 		if("".equals(user.getEmail())){
 			throw new RequestViolationException(ErrorMessages.USER_EMAIL_EMPTY.getValue());
 		}
 		if("".equals(user.getName())){
 			throw new RequestViolationException(ErrorMessages.USER_NAME_EMPTY.getValue());
 		}
-		String status = "FAILED";
-		try {
-			UserEntity userEntity =new UserEntity();
-			userEntity.setEmail(user.getEmail());
-			userEntity.setRegisteredOn(new Timestamp(new Date().getTime()));
-			userDao.save(userEntity);
-			status = "SUCCESS";
-		} catch (Exception e) {
-			
-		}
-		return status;
+		UserEntity userEntity =new UserEntity(user.getEmail(),new Timestamp(new Date().getTime()));
+		userDao.save(userEntity);
+		return "SUCCESS";
 	}
 
 	@Override

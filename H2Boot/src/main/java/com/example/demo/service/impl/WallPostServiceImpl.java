@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.example.demo.bean.FeedBean;
-import com.example.demo.bean.PostBean;
+import com.example.demo.bean.PostResponseBean;
+import com.example.demo.bean.PostRequestBean;
 import com.example.demo.constants.ErrorMessages;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dao.UserFollowerDao;
@@ -24,6 +24,7 @@ import com.example.demo.entity.UserFollower;
 import com.example.demo.entity.WallPostEntity;
 import com.example.demo.exception.RequestViolationException;
 import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.service.WallPostService;
 
 /**
  * @author KotilingeswararaoR
@@ -42,17 +43,12 @@ public class WallPostServiceImpl implements WallPostService {
 	private UserFollowerDao userFollowerDao;
 
 	@Override
-	public String createPost(@RequestBody PostBean postBean) {
+	public String createPost(@RequestBody PostRequestBean postBean) {
 		
 		Optional<UserEntity> user = userDao.findById(postBean.getUserId());
 		
 		if(user.isPresent()){
 			WallPostEntity wallPost = new WallPostEntity(postBean.getPostId(), postBean.getContent(), user.get(), new Timestamp(new Date().getTime()));
-			/*wallPost.setUserEntity( user.get());
-			wallPost.setPostId(postBean.getPostId());
-			wallPost.setContent(postBean.getContent());
-			wallPost.setPostedOn(new Timestamp(new Date().getTime()));*/
-			
 			wallPostDao.save(wallPost);
 			return "SUCCESS";
 		}else{
@@ -62,16 +58,20 @@ public class WallPostServiceImpl implements WallPostService {
 	}
 
 	@Override
-	public List<FeedBean> getNewsFeed(long userId) {
+	public List<PostResponseBean> getNewsFeed(long userId) {
 		
 		Optional<UserEntity> user= userDao.findById(userId);
 		if(!user.isPresent()){
 			throw new UserNotFoundException(ErrorMessages.USER_NOT_EXIST.getValue());
 		}
-		List<UserFollower> userFollowerlist = userFollowerDao.findByFollwees(user.get());
-		List<UserEntity> followerlist = userFollowerlist.stream().map(item -> item.getFollowerId()).collect(Collectors.toList());
-		List<WallPostEntity> postsList = wallPostDao.findFirst10ByUserEntityInOrderByPostedOnDesc(followerlist);
-		List<FeedBean> listOfFeeds = postsList.stream().map(item -> new FeedBean(item.getUserEntity().getUserId(),item.getUserEntity().getEmail(),item.getPostId(),item.getContent())).collect(Collectors.toList());
+		List<UserFollower> userFollowerlist = userFollowerDao.findByFollowerId(user.get());
+		List<UserEntity> followeelist = userFollowerlist.stream().map(item -> item.getFolloweeId()).collect(Collectors.toList());
+		followeelist.add(user.get());
+		List<WallPostEntity> postsList = wallPostDao.findFirst20ByUserEntityInOrderByPostedOnDesc(followeelist);
+		List<PostResponseBean> listOfFeeds = postsList
+				.stream().map(item -> new PostResponseBean(item.getUserEntity().getUserId(),
+						item.getUserEntity().getEmail(), item.getPostId(), item.getContent()))
+				.collect(Collectors.toList());
 		
 		return listOfFeeds;
 	}

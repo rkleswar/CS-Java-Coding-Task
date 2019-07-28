@@ -10,18 +10,19 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.example.demo.bean.UserBean;
+import com.example.demo.bean.UserRequestBean;
 import com.example.demo.helper.MockData;
 import com.example.demo.helper.ResourceLoader;
 import com.example.demo.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(MockitoJUnitRunner.class)
-/*@PrepareForTest(UserController.class)*/
+@PrepareForTest(UserController.class)
 public class UserControllerTest {
 	
 	private MockMvc mockMvc;
@@ -45,9 +46,8 @@ public class UserControllerTest {
     
     @Test
     public void testcreateUser() throws JsonProcessingException, Exception {
-        mockMvc.perform(post("/api/users").content(ResourceLoader.asJsonString(new UserBean()))
+        mockMvc.perform(post("/api/users").content(ResourceLoader.asJsonString(new UserRequestBean()))
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
-
 
 }

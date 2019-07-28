@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.bean.FeedBean;
-import com.example.demo.bean.PostBean;
+import com.example.demo.bean.PostResponseBean;
+import com.example.demo.bean.PostRequestBean;
 import com.example.demo.service.WallPostService;
 
 import io.swagger.annotations.ApiOperation;
@@ -36,7 +35,7 @@ public class WallPostController {
 			response = String.class
 	)
     @PostMapping("/posts")
-    public String createWallPost(@RequestBody PostBean postBean) {
+    public String createWallPost(@RequestBody PostRequestBean postBean) {
         return wallPostService.createPost(postBean);
     }
     
@@ -45,7 +44,7 @@ public class WallPostController {
 			response = List.class
 	)
     @GetMapping("/posts/{userId}")
-    public List<FeedBean> getNewsFeed(@RequestParam long userId) {
+    public List<PostResponseBean> getNewsFeed(@PathVariable long userId) {
         return wallPostService.getNewsFeed(userId);
     }
     

@@ -2,7 +2,7 @@ package com.example.demo.bean;
 
 import java.io.Serializable;
 
-public class FeedBean implements Serializable {
+public class PostResponseBean implements Serializable {
 
 	private static final long serialVersionUID = -482579746519948977L;
     
@@ -14,11 +14,11 @@ public class FeedBean implements Serializable {
     
     private String content;
     
-	public FeedBean() {
+	public PostResponseBean() {
 		super();
 	}
 
-	public FeedBean(long userId, String userEmailId, long postId, String content) {
+	public PostResponseBean(long userId, String userEmailId, long postId, String content) {
 		super();
 		this.userId = userId;
 		this.userEmailId = userEmailId;
