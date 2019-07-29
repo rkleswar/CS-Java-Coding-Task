@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -23,7 +22,6 @@ import com.example.demo.service.WallPostService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(MockitoJUnitRunner.class)
-@PrepareForTest(WallPostController.class)
 public class WallPostControllerTest {
 	
 	private MockMvc mockMvc;
